@@ -24,9 +24,13 @@ function getNearestComponentNameInHierarchy(
     (result != null && result.type !== "function") ||
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     !isValidComponentName(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
       result.block.id?.name ??
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         /*result.block.type === "ArrowFunctionExpression"*/ result?.block.parent
           .id.name
     )
@@ -34,9 +38,11 @@ function getNearestComponentNameInHierarchy(
     result = currentScope.upper;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const componentName: string | null =
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     result.block.id?.name ?? result?.block.parent.id.name;
   return componentName;
 }
@@ -67,6 +73,7 @@ export const i18nPrefix: Rule.RuleModule = {
     ],
   },
   create(context) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const config: Partial<{
       delimiter: string;
       translationFunctionName: string;
@@ -95,9 +102,8 @@ export const i18nPrefix: Rule.RuleModule = {
         }
 
         if (firstArg.type === "Literal" && typeof firstArg.value === "string") {
-          const { range } = firstArg;
-          const [firstI18nKeyPart, ...restI18nKey] =
-            firstArg.value.split(delimiter);
+          const { range, value } = firstArg;
+          const [firstI18nKeyPart, ...restI18nKey] = value.split(delimiter);
           if (firstI18nKeyPart == null || range == null) {
             return;
           }
