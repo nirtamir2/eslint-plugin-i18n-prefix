@@ -54,10 +54,15 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
     schema: [],
   },
   create(context) {
+    const delimiter = ".";
+    const translationFunctionName = "t";
     return {
       // eslint-disable-next-line sonarjs/cognitive-complexity
       CallExpression(node) {
-        if (node.callee.type !== "Identifier" || node.callee.name !== "t") {
+        if (
+          node.callee.type !== "Identifier" ||
+          node.callee.name !== translationFunctionName
+        ) {
           return;
         }
         const firstArg = node.arguments[0];
@@ -75,7 +80,8 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
 
         if (firstArg.type === "Literal" && typeof firstArg.value === "string") {
           const { range } = firstArg;
-          const [firstI18nKeyPart, ...restI18nKey] = firstArg.value.split(".");
+          const [firstI18nKeyPart, ...restI18nKey] =
+            firstArg.value.split(delimiter);
           if (firstI18nKeyPart == null || range == null) {
             return;
           }
@@ -89,7 +95,9 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
               }),
               fix(fixer) {
                 // fix function: replace the first part of the string literal with the function name
-                const newValue = `${componentName}.${restI18nKey.join(".")}`;
+                const newValue = `${componentName}.${restI18nKey.join(
+                  delimiter
+                )}`;
                 const [start, end] = range;
                 return fixer.replaceTextRange([start + 1, end - 1], newValue);
               },
@@ -99,11 +107,10 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
           firstArg.type === "TemplateLiteral" &&
           typeof firstArg.quasis[0]?.value.raw === "string"
         ) {
-          const parts = firstArg.quasis[0].value.raw.split(".");
+          const parts = firstArg.quasis[0].value.raw.split(delimiter);
           const { range } = firstArg.quasis[0];
           const firstPart = parts[0];
           if (firstPart == null || range == null) {
-            //  Lint not using . in translation
             return;
           }
 
@@ -115,7 +122,9 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
                 got: firstPart,
               }),
               fix(fixer) {
-                const newValue = `${componentName}.${parts.slice(1).join(".")}`;
+                const newValue = `${componentName}.${parts
+                  .slice(1)
+                  .join(delimiter)}`;
                 const [start, end] = range;
                 return fixer.replaceTextRange([start + 1, end - 2], newValue);
               },
