@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": [
+    "nirtamir2",
+    "nirtamir2/recommended",
+    "nirtamir2/typescript",
+    "nirtamir2/security",
+    "nirtamir2/jest",
+    "plugin:eslint-plugin/recommended"
+  ]
+}

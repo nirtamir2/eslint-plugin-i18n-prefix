@@ -1,0 +1,67 @@
+{
+  "name": "eslint-plugin-i18n-prefix",
+  "version": "0.0.2",
+  "description": "ESLint rule to check if i18n translation key starts with matching component name",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nirtamir2/eslint-plugin-i18n-prefix"
+  },
+  "license": "MIT",
+  "author": "Nir Tamir <nirtamir2@gmail.com>",
+  "main": "lib/index.js",
+  "files": [
+    "README.md",
+    "package.json",
+    "docs",
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\"",
+    "lint": "eslint --fix \"src/**/*.{ts,js,json}\"",
+    "prepublish": "npm run clean && npm run build",
+    "test": "jest",
+    "type-check": "tsc --noEmit"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "json"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "\\.d\\.ts$",
+      "lib/.*"
+    ],
+    "testRegex": "(src/.*\\.test)\\.ts$",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    }
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@tsconfig/strictest": "^1.0.2",
+    "@types/eslint": "^8.4.10",
+    "@types/node": "^18.11.17",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.30.0",
+    "eslint-config-nirtamir2": "^0.0.46",
+    "eslint-plugin-eslint-plugin": "^5.0.7",
+    "jest": "^29.3.1",
+    "prettier": "^2.8.1",
+    "prettier-plugin-packagejson": "^2.3.0",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.0.3",
+    "typescript": "~4.9.4"
+  },
+  "peerDependencies": {
+    "eslint": "^4 || ^5 || ^6 || ^7 || ^8"
+  }
+}
