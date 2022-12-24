@@ -41,7 +41,7 @@ function getNearestComponentNameInHierarchy(
   return componentName;
 }
 
-export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
+export const i18nPrefix: Rule.RuleModule = {
   meta: {
     type: "problem",
     fixable: "code",
