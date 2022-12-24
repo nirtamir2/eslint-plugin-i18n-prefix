@@ -1,10 +1,7 @@
 import type { Rule, Scope } from "eslint";
 
-function isValidReactComponentName(name: string): boolean {
-  // A valid React component name must start with an uppercase letter
-  if (name == null) {
-    debugger;
-  }
+function isValidComponentName(name: string): boolean {
+  // A valid component name must start with an uppercase letter
   const firstChar = name[0];
   if (firstChar == null || firstChar !== firstChar.toUpperCase()) {
     return false;
@@ -26,7 +23,7 @@ function getNearestComponentNameInHierarchy(
   while (
     (result != null && result.type !== "function") ||
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    !isValidReactComponentName(
+    !isValidComponentName(
       // @ts-expect-error
       result.block.id?.name ??
         // @ts-expect-error
@@ -39,8 +36,9 @@ function getNearestComponentNameInHierarchy(
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
-  const functionName: string | null = result.block.id?.name;
-  return functionName;
+  const componentName: string | null =
+    result.block.id?.name ?? result?.block.parent.id.name;
+  return componentName;
 }
 
 export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {

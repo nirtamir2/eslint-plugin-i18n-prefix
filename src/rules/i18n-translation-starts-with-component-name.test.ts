@@ -7,6 +7,7 @@ const tester = new RuleTester({
 
 const message =
   'i18n translation key does not start with component name. Expected "TestFunction" but got "Other".';
+
 tester.run(
   "i18n-translation-starts-with-component-name",
   i18nTranslationStartsWithComponentName,
@@ -92,24 +93,23 @@ tester.run(
         }
       `,
       },
-      //   TODO
-      // {
-      //   code: `
-      //   const TestFunction = () => {
-      //     t("OtherFunction.string");
-      //   }
-      // `,
-      //   errors: [
-      //     {
-      //       message,
-      //     },
-      //   ],
-      //   output: `
-      //   const TestFunction = () => {
-      //     t("TestFunction.string");
-      //   }
-      // `,
-      // },
+      {
+        code: `
+        const TestFunction = () => {
+          t("Other.string");
+        }
+      `,
+        errors: [
+          {
+            message,
+          },
+        ],
+        output: `
+        const TestFunction = () => {
+          t("TestFunction.string");
+        }
+      `,
+      },
     ],
   }
 );
