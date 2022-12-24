@@ -24,6 +24,7 @@ function getNearestComponentNameInHierarchy(
     (result != null && result.type !== "function") ||
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     !isValidComponentName(
+      /*try function declaration */
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-argument
@@ -32,7 +33,8 @@ function getNearestComponentNameInHierarchy(
         // @ts-expect-error
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         /*result.block.type === "ArrowFunctionExpression"*/ result?.block.parent
-          .id.name
+          .id?.name ??
+        /* Maybe it's inside an anonymous function */ ""
     )
   ) {
     result = currentScope.upper;

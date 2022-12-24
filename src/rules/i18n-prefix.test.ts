@@ -2,7 +2,13 @@ import { RuleTester } from "eslint";
 import { i18nPrefix } from "./i18n-prefix";
 
 const tester = new RuleTester({
-  parserOptions: { ecmaVersion: 2015, sourceType: "module" },
+  parserOptions: {
+    ecmaVersion: 2015,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
 });
 
 const message =
@@ -50,6 +56,17 @@ tester.run("i18n-prefix", i18nPrefix, {
             }
           }
         }
+      `,
+    },
+    {
+      code: `
+export function TestFunction() {
+    return <div>
+        {[1,2,3].map(i => {
+            return <div key={i} aria-label={t("TestFunction.string")}>aa</div>;
+        })}
+    </div>
+}
       `,
     },
   ],
@@ -105,6 +122,31 @@ tester.run("i18n-prefix", i18nPrefix, {
         const TestFunction = () => {
           t("TestFunction.string");
         }
+      `,
+    },
+    {
+      code: `
+export function TestFunction() {
+    return <div>
+        {[1,2,3].map(i => {
+            return <div key={i} aria-label={t("Other.string")}>aa</div>;
+        })}
+    </div>
+}
+      `,
+      errors: [
+        {
+          message,
+        },
+      ],
+      output: `
+export function TestFunction() {
+    return <div>
+        {[1,2,3].map(i => {
+            return <div key={i} aria-label={t("TestFunction.string")}>aa</div>;
+        })}
+    </div>
+}
       `,
     },
   ],
