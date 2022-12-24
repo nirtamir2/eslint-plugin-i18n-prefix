@@ -51,11 +51,27 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
       recommended: true,
       url: "https://github.com/nirtamir2/eslint-plugin-i18n-prefix",
     },
-    schema: [],
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          delimiter: {
+            type: "string",
+          },
+          translationFunctionName: {
+            type: "string",
+          },
+        },
+        type: "object",
+      },
+    ],
   },
   create(context) {
-    const delimiter = ".";
-    const translationFunctionName = "t";
+    const config: Partial<{
+      delimiter: string;
+      translationFunctionName: string;
+    }> = context.options[0] ?? {};
+    const { delimiter = ".", translationFunctionName = "t" } = config;
     return {
       // eslint-disable-next-line sonarjs/cognitive-complexity
       CallExpression(node) {
