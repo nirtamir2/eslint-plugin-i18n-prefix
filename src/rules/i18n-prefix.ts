@@ -98,7 +98,7 @@ export const i18nPrefix: Rule.RuleModule = {
         if (componentName == null) {
           context.report({
             node,
-            message: "t function not found inside a component",
+            message: `${translationFunctionName} function not found inside a component`,
           });
           return;
         }
