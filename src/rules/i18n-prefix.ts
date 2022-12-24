@@ -12,7 +12,13 @@ function isValidComponentName(name: string): boolean {
   return regex.test(name);
 }
 
-function getErrorMessage({ expected, got }: { expected: string; got: string }) {
+function getWrongI18nKeyPrefixMessage({
+  expected,
+  got,
+}: {
+  expected: string;
+  got: string;
+}) {
   return `i18n translation key does not start with component name. Expected "${expected}" but got "${got}".`;
 }
 
@@ -45,6 +51,10 @@ function getParentComponentName(initialScope: Scope.Scope): string | null {
   }
 
   return null;
+}
+
+function getParentComponentNotFoundMessage(translationFunctionName: string) {
+  return `${translationFunctionName} function is not wrapped inside a component`;
 }
 
 export const i18nPrefix: Rule.RuleModule = {
@@ -98,7 +108,7 @@ export const i18nPrefix: Rule.RuleModule = {
         if (componentName == null) {
           context.report({
             node,
-            message: `${translationFunctionName} function not found inside a component`,
+            message: getParentComponentNotFoundMessage(translationFunctionName),
           });
           return;
         }
@@ -115,7 +125,7 @@ export const i18nPrefix: Rule.RuleModule = {
           if (componentName !== firstI18nKeyPart) {
             context.report({
               node,
-              message: getErrorMessage({
+              message: getWrongI18nKeyPrefixMessage({
                 expected: componentName,
                 got: firstI18nKeyPart,
               }),
@@ -144,7 +154,7 @@ export const i18nPrefix: Rule.RuleModule = {
           if (componentName !== firstI18nKeyPart) {
             context.report({
               node,
-              message: getErrorMessage({
+              message: getWrongI18nKeyPrefixMessage({
                 expected: componentName,
                 got: firstI18nKeyPart,
               }),
