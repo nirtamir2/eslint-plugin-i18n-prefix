@@ -35,3 +35,7 @@ Add to `.eslintrc`
 ### i18n-prefix
 
 Ensure i18n translation key starts with matching component name
+
+
+## Notes
+This can be used together with https://github.com/natura-cosmeticos/eslint-plugin-i18n-checker
