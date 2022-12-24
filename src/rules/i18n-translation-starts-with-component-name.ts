@@ -34,9 +34,9 @@ function getNearestComponentNameInHierarchy(
     result = currentScope.upper;
   }
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
   const componentName: string | null =
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     result.block.id?.name ?? result?.block.parent.id.name;
   return componentName;
 }
@@ -116,7 +116,8 @@ export const i18nTranslationStartsWithComponentName: Rule.RuleModule = {
               fix(fixer) {
                 // fix function: replace the first part of the template string with the function name
                 const newValue = `${componentName}.${parts.slice(1).join(".")}`;
-                return fixer.replaceTextRange(range, `\`${newValue}\${`);
+                const [start, end] = range;
+                return fixer.replaceTextRange([start + 1, end - 2], newValue);
               },
             });
           }
