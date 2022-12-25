@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-i18n-prefix",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "ESLint rule to check if i18n translation key starts with matching component name",
   "keywords": [
     "eslint",
