@@ -58,37 +58,18 @@ function getParentComponentNotFoundMessage(translationFunctionName: string) {
 }
 
 export const i18nPrefix: Rule.RuleModule = {
-  meta: {
-    type: "problem",
-    fixable: "code",
-    docs: {
-      description:
-        "i18n translation key should starts with matching component name",
-      recommended: true,
-      url: "https://github.com/nirtamir2/eslint-plugin-i18n-prefix",
-    },
-    schema: [
-      {
-        additionalProperties: false,
-        properties: {
-          delimiter: {
-            type: "string",
-          },
-          translationFunctionName: {
-            type: "string",
-          },
-        },
-        type: "object",
-      },
-    ],
-  },
   create(context) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const config: Partial<{
       delimiter: string;
       translationFunctionName: string;
+      ignorePrefixes: Array<string>;
     }> = context.options[0] ?? {};
-    const { delimiter = ".", translationFunctionName = "t" } = config;
+    const {
+      delimiter = ".",
+      translationFunctionName = "t",
+      ignorePrefixes = [],
+    } = config;
     return {
       // eslint-disable-next-line sonarjs/cognitive-complexity
       CallExpression(node) {
@@ -122,7 +103,10 @@ export const i18nPrefix: Rule.RuleModule = {
             return;
           }
 
-          if (componentName !== firstI18nKeyPart) {
+          if (
+            !ignorePrefixes.includes(firstI18nKeyPart) &&
+            componentName !== firstI18nKeyPart
+          ) {
             context.report({
               node,
               message: getWrongI18nKeyPrefixMessage({
@@ -151,7 +135,10 @@ export const i18nPrefix: Rule.RuleModule = {
             return;
           }
 
-          if (componentName !== firstI18nKeyPart) {
+          if (
+            !ignorePrefixes.includes(firstI18nKeyPart) &&
+            componentName !== firstI18nKeyPart
+          ) {
             context.report({
               node,
               message: getWrongI18nKeyPrefixMessage({
@@ -170,5 +157,33 @@ export const i18nPrefix: Rule.RuleModule = {
         }
       },
     };
+  },
+  meta: {
+    type: "problem",
+    fixable: "code",
+    docs: {
+      description:
+        "i18n translation key should starts with matching component name",
+      recommended: true,
+      url: "https://github.com/nirtamir2/eslint-plugin-i18n-prefix",
+    },
+    schema: [
+      {
+        additionalProperties: false,
+        properties: {
+          delimiter: {
+            type: "string",
+          },
+          translationFunctionName: {
+            type: "string",
+          },
+          ignorePrefixes: {
+            type: "array",
+            uniqueItems: true,
+          },
+        },
+        type: "object",
+      },
+    ],
   },
 };

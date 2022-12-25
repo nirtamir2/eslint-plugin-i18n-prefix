@@ -69,6 +69,23 @@ export function TestFunction() {
 }
       `,
     },
+    {
+      options: [{ ignorePrefixes: ["enum"] }],
+      code: `
+        function TestFunction() {
+          t("enum.string");
+        }
+      `,
+    },
+    {
+      options: [{ ignorePrefixes: ["enum"] }],
+      code: `
+        function TestFunction() {
+        const a = "a";
+          t(\`enum.string.\${a}\`);
+        }
+      `,
+    },
   ],
   invalid: [
     {

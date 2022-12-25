@@ -34,7 +34,8 @@ Example:
 		"error",
 		{
             translationFunctionName: "t",
-            delimiter: "."
+            delimiter: ".",
+            ignorePrefixes: []
 		}
 	]
 }
@@ -42,8 +43,9 @@ Example:
 
 ```js
 // eslint i18n-prefix/i18n-prefix: ["error", {
-// translationFunctionName: "t",
-//     delimiter: "."
+//   translationFunctionName: "t",
+//   delimiter: ".",
+//   ignorePrefixes: []
 // }]
 
 const TestFunction = () => {
@@ -66,7 +68,6 @@ function TestFunction() {
 ```
 
 ## Fail
-
 
 ```js
 const TestFunction = () => {
