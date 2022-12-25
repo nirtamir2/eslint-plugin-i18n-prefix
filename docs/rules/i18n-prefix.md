@@ -26,6 +26,14 @@ Type: `string`
 
 The translation delimiter. Default: `.`
 
+### ignorePrefixes
+
+Type: `Array<string>`
+
+Prefixes to ignore. Default: `[]`
+
+Setting it to `["A", "B"]` will ignore `t("A.other")` and `t("B.too")`
+
 Example:
 
 ```js
