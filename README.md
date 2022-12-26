@@ -36,6 +36,19 @@ Add to `.eslintrc`
 
 Ensure i18n translation key starts with matching component name
 
+```json
+{
+	"i18n-prefix/i18n-prefix": [
+		"error",
+		{
+            "translationFunctionName": "t",
+            "delimiter": ".",
+            "ignorePrefixes": []
+		}
+	]
+}
+```
 
 ## Notes
+
 This can be used together with https://github.com/natura-cosmeticos/eslint-plugin-i18n-checker

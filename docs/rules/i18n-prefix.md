@@ -36,28 +36,29 @@ Setting it to `["A", "B"]` will ignore `t("A.other")` and `t("B.too")`
 
 Example:
 
-```js
+```json
 {
-	"i18n-prefix/i18n-prefix": [
-		"error",
-		{
-            translationFunctionName: "t",
-            delimiter: ".",
-            ignorePrefixes: []
-		}
-	]
+    "i18n-prefix/i18n-prefix": [
+        "error",
+        {
+            "translationFunctionName": "t",
+            "delimiter": ".",
+            "ignorePrefixes": []
+        }
+    ]
 }
 ```
 
 ```js
-// eslint i18n-prefix/i18n-prefix: ["error", {
+// eslint-i18n-prefix/i18n-prefix: ["error", {
 //   translationFunctionName: "t",
 //   delimiter: ".",
-//   ignorePrefixes: []
+//   ignorePrefixes: ["Ignore"]
 // }]
 
 const TestFunction = () => {
   t("Other.string"); // Fails
+  t("Ignore.string"); // Pass
 };
 ```
 
